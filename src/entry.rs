@@ -85,18 +85,11 @@ impl FileEntry {
             return vec![];
         };
 
-        let mut files: Vec<FileEntry> = entries
+        let files: Vec<FileEntry> = entries
             .filter_map(|f| f.ok())
             .map(|e| e.path())
             .filter_map(FileEntry::from_path)
-            .filter(|f| !f.name.starts_with('.'))
             .collect();
-
-        files.sort_by(|a, b| {
-            b.is_dir
-                .cmp(&a.is_dir)
-                .then(a.name.to_lowercase().cmp(&b.name.to_lowercase()))
-        });
 
         files
     }

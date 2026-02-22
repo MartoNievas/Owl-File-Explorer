@@ -1,5 +1,6 @@
 use crate::app::FileExplorerApplication;
 use crate::entry::FileEntry;
+use crate::types::{SortBy, SortOrder};
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
@@ -49,6 +50,11 @@ mod imp {
         pub history_pos: RefCell<usize>,
         // Currently loaded directory
         pub current_dir: RefCell<PathBuf>,
+        pub show_hidden_files: RefCell<bool>,
+
+        //Sort mode
+        pub sort_by: RefCell<SortBy>,
+        pub sort_order: RefCell<SortOrder>,
     }
 
     #[glib::object_subclass]
@@ -221,6 +227,12 @@ impl FileExplorerWindow {
         let mut history = imp.history.borrow_mut();
         let mut pos = imp.history_pos.borrow_mut();
 
+        if let Some(current) = history.get(*pos)
+            && current == path
+        {
+            return;
+        }
+
         if history.is_empty() {
             // First navigation: just push, pos stays at 0
             history.push(path.clone());
@@ -237,6 +249,11 @@ impl FileExplorerWindow {
 
         self.load_directory(path);
         self.update_nav_buttons();
+    }
+
+    //Get the current dir
+    pub fn current_dir(&self) -> PathBuf {
+        self.imp().current_dir.borrow().clone()
     }
 
     // Go back one step in history
@@ -283,7 +300,7 @@ impl FileExplorerWindow {
     }
 
     // Reload the current directory without modifying history
-    fn refresh(&self) {
+    pub fn refresh(&self) {
         let current = self.imp().current_dir.borrow().clone();
         self.load_directory(&current);
     }
@@ -351,7 +368,35 @@ impl FileExplorerWindow {
         }
 
         // Build one row per entry
-        let entries: Vec<FileEntry> = FileEntry::list_directory(path);
+        let mut entries: Vec<FileEntry> = FileEntry::list_directory(path)
+            .into_iter()
+            .filter(|e| *self.imp().show_hidden_files.borrow() || !e.name.starts_with('.'))
+            .collect();
+
+        let sort_by = *self.imp().sort_by.borrow();
+        let sort_order = *self.imp().sort_order.borrow();
+
+        //
+        entries.sort_by(|a, b| match (a.is_dir, b.is_dir) {
+            (true, false) => std::cmp::Ordering::Less,
+            (false, true) => std::cmp::Ordering::Greater,
+            _ => {
+                let ord = match sort_by {
+                    SortBy::Name => a.name.to_lowercase().cmp(&b.name.to_lowercase()),
+                    SortBy::Size => a.size.cmp(&b.size),
+                    SortBy::Type => a
+                        .kind_display()
+                        .to_lowercase()
+                        .cmp(&b.kind_display().to_lowercase()),
+                    SortBy::Date => a.modified.cmp(&b.modified),
+                };
+
+                match sort_order {
+                    SortOrder::Ascending => ord,
+                    SortOrder::Descending => ord.reverse(),
+                }
+            }
+        });
         for entry in &entries {
             let size = entry.size_display();
             let kind = entry.kind_display();
@@ -398,7 +443,7 @@ impl FileExplorerWindow {
         let files = gio::Menu::new();
         files.append(Some("New Window"), Some("app.new-window"));
         files.append(Some("Open Terminal Here"), Some("app.open-terminal"));
-        files.append(Some("Close Window"), Some("app.close"));
+        files.append(Some("Close Window"), Some("app.close-window"));
         menubar.append_submenu(Some("Files"), &files);
 
         // Edit menu
@@ -421,10 +466,23 @@ impl FileExplorerWindow {
         // Section 2: sort submenu
         let view_s2 = gio::Menu::new();
         let sort_menu = gio::Menu::new();
-        sort_menu.append(Some("Name"), Some("app.sort-name"));
-        sort_menu.append(Some("Size"), Some("app.sort-size"));
-        sort_menu.append(Some("Type"), Some("app.sort-type"));
-        sort_menu.append(Some("Date Modified"), Some("app.sort-date"));
+
+        let sort_menu_s1 = gio::Menu::new();
+
+        //Section 1 : Sort by field
+        sort_menu_s1.append(Some("Name"), Some("app.sort-name"));
+        sort_menu_s1.append(Some("Size"), Some("app.sort-size"));
+        sort_menu_s1.append(Some("Type"), Some("app.sort-type"));
+        sort_menu_s1.append(Some("Date Modified"), Some("app.sort-date"));
+        sort_menu.append_section(None, &sort_menu_s1);
+
+        //Section 2: Sort order display
+        let sort_menu_s2 = gio::Menu::new();
+        sort_menu_s2.append(Some("Ascending"), Some("app.order-ascending"));
+        sort_menu_s2.append(Some("Descending"), Some("app.order-descending"));
+
+        sort_menu.append_section(None, &sort_menu_s2);
+
         view_s2.append_submenu(Some("Sort By"), &sort_menu);
         view.append_section(None, &view_s2);
 
@@ -640,14 +698,32 @@ impl FileExplorerWindow {
         content_box.append(&gtk::Separator::new(gtk::Orientation::Horizontal));
 
         let file_list = gtk::ListBox::new();
-        file_list.set_selection_mode(gtk::SelectionMode::Browse);
+        file_list.set_selection_mode(gtk::SelectionMode::Multiple);
         file_list.add_css_class("rich-list");
         file_list.set_vexpand(true);
         file_list.set_hexpand(true);
+        file_list.set_activate_on_single_click(false);
 
         let scroll = gtk::ScrolledWindow::new();
         scroll.set_child(Some(&file_list));
         scroll.set_vexpand(true);
+
+        let gesture = gtk::GestureClick::new();
+        gesture.connect_pressed({
+            let _list = file_list.clone();
+            move |gesture, _, _, y| {
+                if let Some(widget) = gesture.widget()
+                    && let Some(listbox) = widget.downcast_ref::<gtk::ListBox>()
+                {
+                    // ¿El click fue sobre una fila?
+                    if listbox.row_at_y(y as i32).is_none() {
+                        listbox.unselect_all();
+                    }
+                }
+            }
+        });
+        file_list.add_controller(gesture);
+
         content_box.append(&scroll);
 
         (content_box, file_list)

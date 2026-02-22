@@ -1,5 +1,6 @@
 mod app;
 mod entry;
+mod types;
 mod win;
 
 use app::FileExplorerApplication;
