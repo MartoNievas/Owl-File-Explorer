@@ -8,10 +8,24 @@ pub enum SortBy {
 }
 
 #[derive(Clone, Copy, PartialEq, Default)]
+pub enum ViewMode {
+    #[default]
+    List,
+    Grid,
+    Compact,
+}
+
+#[derive(Clone, Copy, PartialEq, Default)]
 pub enum SortOrder {
     #[default]
     Ascending,
     Descending,
+}
+
+impl ViewMode {
+    fn default() -> Self {
+        ViewMode::List
+    }
 }
 
 impl SortOrder {

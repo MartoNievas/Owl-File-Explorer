@@ -1,12 +1,10 @@
 mod app;
-mod entry;
-mod types;
+mod widgets;
 mod win;
-
-use app::FileExplorerApplication;
+use app::OwlApplication;
+use gtk::prelude::*;
 use gtk4 as gtk;
-
 fn main() -> gtk::glib::ExitCode {
-    let app = FileExplorerApplication::new();
-    gtk::prelude::ApplicationExtManual::run(&app)
+    let app = OwlApplication::new();
+    app.run()
 }
