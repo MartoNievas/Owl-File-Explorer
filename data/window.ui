@@ -23,7 +23,32 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="navbar_container"></object>
+          <object class="OwlNavBar" id="navbar"></object>
+        </child>
+        <child>
+          <object class="GtkPaned">
+            <property name="orientation">0</property>
+            <property name="position">200</property>
+            <property name="vexpand">true</property>
+            <property name="resize-start-child">false</property>
+            <property name="resize-end-child">true</property>
+            <property name="start-child">
+              <object class="GtkScrolledWindow">
+                <property name="vexpand">true</property>
+                <property name="hscrollbar-policy">2</property>
+                <property name="child">
+                  <object class="OwlSidePanel" id="side_panel"></object>
+                </property>
+              </object>
+            </property>
+            <property name="end-child">
+              <object class="GtkBox" id="content_container">
+                <property name="orientation">1</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+              </object>
+            </property>
+          </object>
         </child>
       </object>
     </property>

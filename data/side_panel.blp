@@ -1,0 +1,50 @@
+using Gtk 4.0;
+
+template $OwlSidePanel : Box {
+  orientation: vertical;
+
+  // Places section
+  Label {
+    label: "Places";
+    xalign: 0;
+    margin-top: 6;
+    margin-bottom: 2;
+    margin-start: 8;
+    styles ["caption", "dim-label"]
+  }
+
+  Box places_box {
+    orientation: vertical;
+    spacing: 0;
+  }
+
+  // Bookmarks section
+  Label {
+    label: "Bookmarks";
+    xalign: 0;
+    margin-top: 6;
+    margin-bottom: 2;
+    margin-start: 8;
+    styles ["caption", "dim-label"]
+  }
+
+  Box bookmarks_box {
+    orientation: vertical;
+    spacing: 0;
+  }
+
+  // Devices section
+  Label {
+    label: "Devices";
+    xalign: 0;
+    margin-top: 6;
+    margin-bottom: 2;
+    margin-start: 8;
+    styles ["caption", "dim-label"]
+  }
+
+  Box devices_box {
+    orientation: vertical;
+    spacing: 0;
+  }
+}

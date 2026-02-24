@@ -1,4 +1,6 @@
 mod app;
+mod entry;
+mod types;
 mod widgets;
 mod win;
 use app::OwlApplication;

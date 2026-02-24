@@ -16,9 +16,27 @@ template $OwlWindow : ApplicationWindow {
       margin-end: 4;
     }
 
-    Box navbar_container {
+    $OwlNavBar navbar {}
 
-      }
+    Paned {
+      orientation: horizontal;
+      position: 200;
+      vexpand: true;
+      resize-start-child: false;
+      resize-end-child: true;
+
+      start-child: ScrolledWindow {
+        vexpand: true;
+        hscrollbar-policy: never;
+        child: $OwlSidePanel side_panel {};
+      };
+
+      end-child: Box content_container {
+        orientation: vertical;
+        hexpand: true;
+        vexpand: true;
+      };
+    }
   };
 }
 
@@ -40,51 +58,45 @@ menu main_menu {
 
   submenu {
     label: "View";
-    section { 
-    item { label: "Refresh";           action: "app.refresh"; }
-    submenu {
+    section {
+      item { label: "Refresh"; action: "app.refresh"; }
+      submenu {
         label: "Sort By";
         section {
-            item {label: "Name"; action: "app.sort::name";}
-            item {label: "Size"; action: "app.sort::size";}
-            item {label: "Type"; action: "app.sort::type";}
-            item {label: "Date"; action: "app.sort::date";}
+          item { label: "Name"; action: "app.sort::name"; }
+          item { label: "Size"; action: "app.sort::size"; }
+          item { label: "Type"; action: "app.sort::type"; }
+          item { label: "Date"; action: "app.sort::date"; }
         }
-
         section {
-          item {label: "Ascending"; action: "app.order::ascending";}
-          item {label: "Descending"; action: "app.order::descending";}
+          item { label: "Ascending";  action: "app.order::ascending"; }
+          item { label: "Descending"; action: "app.order::descending"; }
         }
-      } 
+      }
       item { label: "Show Hidden Files"; action: "app.show-hidden"; }
     }
-    
     section {
-       item {label: "List View"; action: "app.view::list";} 
-       item {label: "Grid View"; action: "app.view::grid";} 
-       item {label: "Compact View"; action: "app.view::compact";} 
+      item { label: "List View";    action: "app.view::list"; }
+      item { label: "Grid View";    action: "app.view::grid"; }
+      item { label: "Compact View"; action: "app.view::compact"; }
     }
   }
 
   submenu {
     label: "Go";
     section {
-      item { label: "Open Parent Directory"; action: "app.go-parent";}
-      item { label: "Back";    action: "app.go-back"; }
-      item { label: "Forward"; action: "app.go-forward"; }
+      item { label: "Open Parent Directory"; action: "app.go-parent"; }
+      item { label: "Back";                  action: "app.go-back"; }
+      item { label: "Forward";               action: "app.go-forward"; }
     }
-
     section {
-      item {label: "Personal Directory"; action: "app.go-home";}
-      item {label: "Desktop"; action: "app.go-desktop" ;}
-      item {label: "Templates"; action: "app.go-templates" ;}
+      item { label: "Personal Directory"; action: "app.go-home"; }
+      item { label: "Desktop";            action: "app.go-desktop"; }
+      item { label: "Templates";          action: "app.go-templates"; }
     }
-
     section {
-      
-      item {label: "File System"; action: "app.go-root" ;}
+      item { label: "File System"; action: "app.go-root"; }
     }
-
   }
 
   submenu {

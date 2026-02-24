@@ -8,51 +8,62 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
   <requires lib="gtk" version="4.0"/>
   <template class="OwlNavBar" parent="GtkBox">
     <property name="orientation">0</property>
-    <property name="spacing">6</property>
+    <property name="spacing">3</property>
+    <property name="hexpand">true</property>
     <property name="margin-top">4</property>
     <property name="margin-bottom">4</property>
-    <property name="margin-start">6</property>
-    <property name="margin-end">6</property>
+    <property name="margin-start">0</property>
+    <property name="margin-end">0</property>
     <child>
-      <object class="GtkBox">
-        <child>
-          <object class="GtkButton" id="btn_back">
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="sensitive">false</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="btn_forward">
-            <property name="icon-name">go-next-symbolic</property>
-            <property name="sensitive">false</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="btn_up">
-            <property name="icon-name">go-up-symbolic</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="btn_home">
-            <property name="icon-name">go-home-symbolic</property>
-          </object>
-        </child>
+      <object class="GtkButton" id="btn_back">
+        <property name="icon-name">go-previous-symbolic</property>
+        <property name="sensitive">false</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="btn_forward">
+        <property name="icon-name">go-next-symbolic</property>
+        <property name="sensitive">false</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="btn_up">
+        <property name="icon-name">go-up-symbolic</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="btn_home">
+        <property name="icon-name">go-home-symbolic</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
       </object>
     </child>
     <child>
       <object class="GtkButton" id="btn_refresh">
         <property name="icon-name">view-refresh-symbolic</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
       </object>
     </child>
     <child>
       <object class="GtkSearchEntry" id="search">
         <property name="hexpand">true</property>
         <property name="placeholder-text">/home/user/</property>
+        <property name="valign">3</property>
+        <property name="height-request">35</property>
       </object>
     </child>
     <child>
       <object class="GtkButton" id="btn_search">
         <property name="icon-name">system-search-symbolic</property>
+        <property name="height-request">35</property>
+        <property name="width-request">35</property>
       </object>
     </child>
   </template>

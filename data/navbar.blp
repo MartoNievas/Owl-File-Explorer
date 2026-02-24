@@ -2,45 +2,57 @@ using Gtk 4.0;
 
 template $OwlNavBar : Box {
   orientation: horizontal;
-  spacing: 6;
+  spacing: 3;
+  hexpand: true;
+
   margin-top: 4;
   margin-bottom: 4;
-  margin-start: 6;
-  margin-end: 6;
+  margin-start: 0;
+  margin-end: 0;
+  
 
-  Box {
+  Button btn_back {
+    icon-name: "go-previous-symbolic";
+    sensitive: false;
+    height-request: 35;
+    width-request: 35;
+  }
 
-    Button btn_back {
-      icon-name: "go-previous-symbolic";
-      sensitive: false;
-    }
+  Button btn_forward {
+    icon-name: "go-next-symbolic";
+    sensitive: false;
+    height-request: 35;
+    width-request: 35;
+  }
 
-    Button btn_forward {
-      icon-name: "go-next-symbolic";
-      sensitive: false;
-    }
+  Button btn_up {
+    icon-name: "go-up-symbolic";
+    height-request: 35;
+    width-request: 35;
+  }
 
-    Button btn_up {
-      icon-name: "go-up-symbolic";
-    }
-
-    Button btn_home {
-      icon-name: "go-home-symbolic";
-    }
+  Button btn_home {
+    icon-name: "go-home-symbolic";
+    height-request: 35;
+    width-request: 35;
   }
 
   Button btn_refresh {
     icon-name: "view-refresh-symbolic";
+    height-request: 35;
+    width-request: 35;
   }
 
   SearchEntry search {
     hexpand: true;
     placeholder-text: "/home/user/";
+    valign: center;
+    height-request: 35;
   }
-
-  
 
   Button btn_search {
     icon-name: "system-search-symbolic";
+    height-request: 35;
+    width-request: 35;
   }
 }

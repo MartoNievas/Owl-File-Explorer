@@ -1,5 +1,6 @@
 use crate::app::OwlApplication;
 use crate::widgets::navbar::OwlNavBar;
+use crate::widgets::side_panel::OwlSidePanel;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
@@ -8,16 +9,16 @@ use gtk4 as gtk;
 
 mod imp {
     use super::*;
-    use std::cell::OnceCell;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "../data/window.ui")]
     pub struct OwlWindow {
         #[template_child]
-        pub navbar_container: TemplateChild<gtk::Box>,
-
-        // Guardamos referencia al navbar
-        pub navbar: OnceCell<OwlNavBar>,
+        pub navbar: TemplateChild<OwlNavBar>,
+        #[template_child]
+        pub side_panel: TemplateChild<OwlSidePanel>,
+        #[template_child]
+        pub content_container: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -27,6 +28,8 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
+            OwlNavBar::ensure_type();
+            OwlSidePanel::ensure_type();
             klass.bind_template();
         }
 
@@ -38,11 +41,6 @@ mod imp {
     impl ObjectImpl for OwlWindow {
         fn constructed(&self) {
             self.parent_constructed();
-
-            // Creamos el navbar y lo insertamos en el contenedor
-            let navbar = OwlNavBar::new();
-            self.navbar_container.append(&navbar);
-            self.navbar.set(navbar).unwrap();
         }
     }
 
@@ -65,6 +63,14 @@ impl OwlWindow {
     }
 
     pub fn navbar(&self) -> &OwlNavBar {
-        self.imp().navbar.get().unwrap()
+        &self.imp().navbar
+    }
+
+    pub fn side_panel(&self) -> &OwlSidePanel {
+        &self.imp().side_panel
+    }
+
+    pub fn content_container(&self) -> &gtk::Box {
+        &self.imp().content_container
     }
 }
