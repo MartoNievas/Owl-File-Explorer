@@ -22,16 +22,7 @@ pub enum SortOrder {
     Descending,
 }
 
-impl ViewMode {
-    fn default() -> Self {
-        ViewMode::List
-    }
-}
-
 impl SortOrder {
-    fn default() -> Self {
-        SortOrder::Ascending
-    }
     pub fn toggle(&mut self) {
         *self = match self {
             SortOrder::Ascending => SortOrder::Descending,

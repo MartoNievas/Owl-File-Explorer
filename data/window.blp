@@ -7,16 +7,17 @@ template $OwlWindow : ApplicationWindow {
 
   child: Box {
     orientation: vertical;
-
+    
     PopoverMenuBar {
       menu-model: main_menu;
-      margin-top: 2;
+      margin-top: 4;
       margin-bottom: 2;
       margin-start: 4;
       margin-end: 4;
     }
 
-    $OwlNavBar navbar {}
+    $OwlNavBar navbar {
+      }
 
     Paned {
       orientation: horizontal;
@@ -24,17 +25,26 @@ template $OwlWindow : ApplicationWindow {
       vexpand: true;
       resize-start-child: false;
       resize-end-child: true;
+      
+      shrink-start-child: false; // Evita que el panel izquierdo desaparezca
+      shrink-end-child: false;   // Evita que el área de contenido desaparezca
 
       start-child: ScrolledWindow {
+        width-request: 200;
         vexpand: true;
         hscrollbar-policy: never;
-        child: $OwlSidePanel side_panel {};
+
+        child: $OwlSidePanel side_panel {
+                 styles ["navigation-sidebar"]
+          };
       };
 
       end-child: Box content_container {
         orientation: vertical;
         hexpand: true;
         vexpand: true;
+
+        $OwlContentPanel content_panel {}
       };
     }
   };

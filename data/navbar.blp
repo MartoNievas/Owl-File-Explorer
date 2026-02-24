@@ -2,57 +2,50 @@ using Gtk 4.0;
 
 template $OwlNavBar : Box {
   orientation: horizontal;
-  spacing: 3;
+  spacing: 4;
   hexpand: true;
-
   margin-top: 4;
   margin-bottom: 4;
-  margin-start: 0;
-  margin-end: 0;
-  
+  margin-start: 6;
+  margin-end: 6;
 
-  Button btn_back {
+  // Quitamos los nombres (ids) de los botones porque ahora usamos acciones
+  Button {
     icon-name: "go-previous-symbolic";
-    sensitive: false;
-    height-request: 35;
-    width-request: 35;
+    sensitive: false; // Esto lo manejarás luego con el estado de la acción
+    action-name: "win.back";
   }
 
-  Button btn_forward {
+  Button {
     icon-name: "go-next-symbolic";
     sensitive: false;
-    height-request: 35;
-    width-request: 35;
+    action-name: "win.forward";
   }
 
-  Button btn_up {
+  Button {
     icon-name: "go-up-symbolic";
-    height-request: 35;
-    width-request: 35;
+    action-name: "win.up";
   }
 
-  Button btn_home {
+  Button {
     icon-name: "go-home-symbolic";
-    height-request: 35;
-    width-request: 35;
+    action-name: "win.home";
   }
 
-  Button btn_refresh {
+  Button {
     icon-name: "view-refresh-symbolic";
-    height-request: 35;
-    width-request: 35;
+    action-name: "win.refresh";
   }
 
+  // Mantenemos el ID 'search' porque seguro lo necesitás en el struct de Rust
   SearchEntry search {
     hexpand: true;
-    placeholder-text: "/home/user/";
+    placeholder-text: "Buscar o ir a...";
     valign: center;
-    height-request: 35;
   }
 
-  Button btn_search {
+  Button {
     icon-name: "system-search-symbolic";
-    height-request: 35;
-    width-request: 35;
+    action-name: "win.search";
   }
 }

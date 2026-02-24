@@ -1,0 +1,217 @@
+warning: unused import: `crate::widgets::navbar::OwlNavBar`
+ --> src/app.rs:1:5
+  |
+1 | use crate::widgets::navbar::OwlNavBar;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `glib::clone`
+ --> src/app.rs:3:5
+  |
+3 | use glib::clone;
+  |     ^^^^^^^^^^^
+
+warning: unused import: `glib::prelude::*`
+ --> src/app.rs:4:5
+  |
+4 | use glib::prelude::*;
+  |     ^^^^^^^^^^^^^^^^
+
+warning: unused import: `iter::Once`
+  --> src/win.rs:12:31
+   |
+12 |     use std::{cell::OnceCell, iter::Once};
+   |                               ^^^^^^^^^^
+
+warning: struct `FileEntry` is never constructed
+ --> src/entry.rs:4:12
+  |
+4 | pub struct FileEntry {
+  |            ^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: associated items `from_path`, `size_display`, `kind_display`, `date_display`, `icon_name`, and `list_directory` are never used
+  --> src/entry.rs:13:12
+   |
+12 | impl FileEntry {
+   | -------------- associated items in this implementation
+13 |     pub fn from_path(path: PathBuf) -> Option<Self> {
+   |            ^^^^^^^^^
+...
+26 |     pub fn size_display(&self) -> String {
+   |            ^^^^^^^^^^^^
+...
+39 |     pub fn kind_display(&self) -> String {
+   |            ^^^^^^^^^^^^
+...
+58 |     pub fn date_display(&self) -> String {
+   |            ^^^^^^^^^^^^
+...
+69 |     pub fn icon_name(&self) -> &'static str {
+   |            ^^^^^^^^^
+...
+83 |     pub fn list_directory(path: &std::path::Path) -> Vec<FileEntry> {
+   |            ^^^^^^^^^^^^^^
+
+warning: function `secs_to_date` is never used
+  --> src/entry.rs:98:4
+   |
+98 | fn secs_to_date(secs: u64) -> (u64, u64, u64, u64, u64) {
+   |    ^^^^^^^^^^^^
+
+warning: enum `SortBy` is never used
+ --> src/types.rs:2:10
+  |
+2 | pub enum SortBy {
+  |          ^^^^^^
+
+warning: enum `ViewMode` is never used
+  --> src/types.rs:11:10
+   |
+11 | pub enum ViewMode {
+   |          ^^^^^^^^
+
+warning: enum `SortOrder` is never used
+  --> src/types.rs:19:10
+   |
+19 | pub enum SortOrder {
+   |          ^^^^^^^^^
+
+warning: associated function `default` is never used
+  --> src/types.rs:26:8
+   |
+25 | impl ViewMode {
+   | ------------- associated function in this implementation
+26 |     fn default() -> Self {
+   |        ^^^^^^^
+
+warning: associated items `default` and `toggle` are never used
+  --> src/types.rs:32:8
+   |
+31 | impl SortOrder {
+   | -------------- associated items in this implementation
+32 |     fn default() -> Self {
+   |        ^^^^^^^
+...
+35 |     pub fn toggle(&mut self) {
+   |            ^^^^^^
+
+warning: `own-file-explorer` (bin "own-file-explorer") generated 12 warnings (run `cargo fix --bin "own-file-explorer" -p own-file-explorer` to apply 4 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target/debug/own-file-explorer`
+
+(own-file-explorer:45837): Gtk-CRITICAL **: 09:48:52.379: Error building template class 'OwlWindow' for an instance of type 'OwlWindow': .:0:0 Invalid object type 'OwlNavBar'
+
+thread 'main' (45837) panicked at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-0.11.0/src/subclass/widget.rs:1325:17:
+Failed to retrieve template child. Please check that all fields of type `GtkBox` have been bound and have a #[template_child] attribute.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'main' (45837) panicked at library/core/src/panicking.rs:225:5:
+panic in a function that cannot unwind
+stack backtrace:
+   0:     0x55723ad96772 - std::backtrace_rs::backtrace::libunwind::trace::h90e89fac33585832
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/../../backtrace/src/backtrace/libunwind.rs:117:9
+   1:     0x55723ad96772 - std::backtrace_rs::backtrace::trace_unsynchronized::heebcf2380a8e7359
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/../../backtrace/src/backtrace/mod.rs:66:14
+   2:     0x55723ad96772 - std::sys::backtrace::_print_fmt::hdf3e2a22d2f810db
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/sys/backtrace.rs:68:9
+   3:     0x55723ad96772 - <std::sys::backtrace::BacktraceLock::print::DisplayBacktrace as core::fmt::Display>::fmt::hac1d885928ba8582
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/sys/backtrace.rs:38:26
+   4:     0x55723ada6027 - core::fmt::rt::Argument::fmt::h6901eb7c19abebe8
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/fmt/rt.rs:152:76
+   5:     0x55723ada6027 - core::fmt::write::h83ebb4d32483be9e
+   6:     0x55723ad73fe6 - std::io::default_write_fmt::hdea1c6df292e9097
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/io/mod.rs:639:11
+   7:     0x55723ad73fe6 - std::io::Write::write_fmt::ha6a1d6c1ea64b2d0
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/io/mod.rs:1994:13
+   8:     0x55723ad7ba36 - std::sys::backtrace::BacktraceLock::print::hcc2e1a3ac996c911
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/sys/backtrace.rs:41:9
+   9:     0x55723ad7ba36 - std::panicking::default_hook::{{closure}}::h8e9c4d1276f0925f
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:292:27
+  10:     0x55723ad7b896 - std::panicking::default_hook::h2b2078d38b534dfb
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:319:9
+  11:     0x55723ad7bc7b - std::panicking::panic_with_hook::h39b739724e701bfd
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:825:13
+  12:     0x55723ad7bb2a - std::panicking::panic_handler::{{closure}}::he540c4833054e458
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:691:13
+  13:     0x55723ad79dd9 - std::sys::backtrace::__rust_end_short_backtrace::hfa179d89deec8aed
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/sys/backtrace.rs:176:18
+  14:     0x55723ad688dd - __rustc[d131491b17107b07]::rust_begin_unwind
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:689:5
+  15:     0x55723ada937d - core::panicking::panic_nounwind_fmt::runtime::hdd17ae2c2a7f85df
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/panicking.rs:122:22
+  16:     0x55723ada937d - core::panicking::panic_nounwind_fmt::h2987a0c8ccb716e5
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/intrinsics/mod.rs:2449:9
+  17:     0x55723ada92fb - core::panicking::panic_nounwind::h6771efadd131a23b
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/panicking.rs:225:5
+  18:     0x55723ada9487 - core::panicking::panic_cannot_unwind::h85c6e55646eb04d5
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/panicking.rs:337:5
+  19:     0x55723ad415f0 - glib::subclass::types::instance_init::h1a48e333e48d031b
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-0.22.0/src/subclass/types.rs:937:1
+  20:     0x7fe903deda69 - g_type_create_instance
+  21:     0x7fe903dd2c05 - <unknown>
+  22:     0x7fe903dd42a7 - g_object_new_with_properties
+  23:     0x55723ad5b178 - glib::object::Object::new_internal::hb8424b19791b6813
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-0.22.0/src/object.rs:1514:23
+  24:     0x55723ad5b4e2 - glib::object::Object::with_mut_values::hfb5c9c4f133acdad
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-0.22.0/src/object.rs:1447:18
+  25:     0x55723ad3e488 - glib::object::ObjectBuilder<O>::build::h0f06245eef0ccd65
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-0.22.0/src/object.rs:1659:22
+  26:     0x55723ad30f35 - own_file_explorer::win::OwlWindow::new::h6f93c9e6e2565bd9
+                               at /home/martin/Escritorio/own-file-explorer/src/win.rs:67:62
+  27:     0x55723ad1d1ab - <own_file_explorer::app::imp::OwlApplication as gio::subclass::application::ApplicationImpl>::activate::hb4a87752e53d1179
+                               at /home/martin/Escritorio/own-file-explorer/src/app.rs:32:26
+  28:     0x55723ad45e7b - gio::subclass::application::application_activate::hf1bfa46d2d21f94b
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/subclass/application.rs:380:13
+  29:     0x7fe903de1c77 - <unknown>
+  30:     0x7fe903de1d89 - g_signal_emit_valist
+  31:     0x7fe903de1e44 - g_signal_emit
+  32:     0x7fe90310ec40 - g_application_activate
+  33:     0x7fe903112531 - <unknown>
+  34:     0x55723ad32c5c - gio::subclass::application::ApplicationImplExt::parent_local_command_line::h797a47a716942644
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/subclass/application.rs:199:23
+  35:     0x55723ad31cf3 - gio::subclass::application::ApplicationImpl::local_command_line::h75ea463f74e23f29
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/subclass/application.rs:94:14
+  36:     0x55723ad46823 - gio::subclass::application::application_local_command_line::h12402c7929ad8840
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/subclass/application.rs:427:23
+  37:     0x7fe9031126e5 - g_application_run
+  38:     0x55723ad198a5 - gio::application::ApplicationExtManual::run_with_args::hc6d74a061b0c4914
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/application.rs:25:13
+  39:     0x55723ad19a69 - gio::application::ApplicationExtManual::run::hc02609dac66c5dbe
+                               at /home/martin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.22.1/src/application.rs:17:14
+  40:     0x55723ad46cf8 - own_file_explorer::main::hff0f332c70236117
+                               at /home/martin/Escritorio/own-file-explorer/src/main.rs:11:9
+  41:     0x55723ad3aa5b - core::ops::function::FnOnce::call_once::hac329dd3fee65815
+                               at /home/martin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/function.rs:250:5
+  42:     0x55723ad1c09e - std::sys::backtrace::__rust_begin_short_backtrace::hb488d2664dfb378e
+                               at /home/martin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/sys/backtrace.rs:160:18
+  43:     0x55723ad1d6f1 - std::rt::lang_start::{{closure}}::h52605facdfe15bdc
+                               at /home/martin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/rt.rs:206:18
+  44:     0x55723ad75616 - core::ops::function::impls::<impl core::ops::function::FnOnce<A> for &F>::call_once::h52f3341f83ee0b20
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/core/src/ops/function.rs:287:21
+  45:     0x55723ad75616 - std::panicking::catch_unwind::do_call::h14dbcc353f10da05
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:581:40
+  46:     0x55723ad75616 - std::panicking::catch_unwind::h0f5e61927052bc65
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:544:19
+  47:     0x55723ad75616 - std::panic::catch_unwind::h8d8992fccbbe3818
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panic.rs:359:14
+  48:     0x55723ad75616 - std::rt::lang_start_internal::{{closure}}::h2586bbc303a85ad8
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/rt.rs:175:24
+  49:     0x55723ad75616 - std::panicking::catch_unwind::do_call::h68525f29457c7630
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:581:40
+  50:     0x55723ad75616 - std::panicking::catch_unwind::h9d0806e64d8b7d77
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panicking.rs:544:19
+  51:     0x55723ad75616 - std::panic::catch_unwind::h9b43c59c05f0dec3
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/panic.rs:359:14
+  52:     0x55723ad75616 - std::rt::lang_start_internal::h74b643a2cc7fe3b4
+                               at /rustc/254b59607d4417e9dffbc307138ae5c86280fe4c/library/std/src/rt.rs:171:5
+  53:     0x55723ad1d6d7 - std::rt::lang_start::h4364186d317a9988
+                               at /home/martin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/rt.rs:205:5
+  54:     0x55723ad46d5e - main
+  55:     0x7fe902d0c635 - <unknown>
+  56:     0x7fe902d0c6e9 - __libc_start_main
+  57:     0x55723ad19595 - _start
+  58:                0x0 - <unknown>
+thread caused non-unwinding panic. aborting.

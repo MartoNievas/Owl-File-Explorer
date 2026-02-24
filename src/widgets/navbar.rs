@@ -10,18 +10,6 @@ mod imp {
     #[template(file = "../../data/navbar.ui")]
     pub struct OwlNavBar {
         #[template_child]
-        pub btn_back: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub btn_forward: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub btn_up: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub btn_home: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub btn_refresh: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub btn_search: TemplateChild<gtk::Button>,
-        #[template_child]
         pub search: TemplateChild<gtk::SearchEntry>,
     }
 
@@ -57,38 +45,9 @@ impl OwlNavBar {
         glib::Object::new()
     }
 
-    // Métodos públicos para conectar señales desde la ventana
-    pub fn connect_back<F: Fn() + 'static>(&self, f: F) {
-        self.imp().btn_back.connect_clicked(move |_| f());
-    }
-
-    pub fn connect_forward<F: Fn() + 'static>(&self, f: F) {
-        self.imp().btn_forward.connect_clicked(move |_| f());
-    }
-
-    pub fn connect_up<F: Fn() + 'static>(&self, f: F) {
-        self.imp().btn_up.connect_clicked(move |_| f());
-    }
-
-    pub fn connect_home<F: Fn() + 'static>(&self, f: F) {
-        self.imp().btn_home.connect_clicked(move |_| f());
-    }
-
-    pub fn connect_refresh<F: Fn() + 'static>(&self, f: F) {
-        self.imp().btn_refresh.connect_clicked(move |_| f());
-    }
-
     pub fn connect_search<F: Fn(&str) + 'static>(&self, f: F) {
         self.imp().search.connect_activate(move |entry| {
             f(entry.text().as_str());
         });
-    }
-
-    pub fn set_back_enabled(&self, v: bool) {
-        self.imp().btn_back.set_sensitive(v);
-    }
-
-    pub fn set_forward_enabled(&self, v: bool) {
-        self.imp().btn_forward.set_sensitive(v);
     }
 }

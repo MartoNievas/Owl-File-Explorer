@@ -2,12 +2,16 @@ using Gtk 4.0;
 
 template $OwlSidePanel : Box {
   orientation: vertical;
-
+  spacing: 2;
+  margin-top: 4;
+  margin-start: 4;
+  margin-end: 4;
+  styles ["navigation-sidebar"] 
   // Places section
   Label {
     label: "Places";
     xalign: 0;
-    margin-top: 6;
+    margin-top: 10;
     margin-bottom: 2;
     margin-start: 8;
     styles ["caption", "dim-label"]
@@ -22,7 +26,7 @@ template $OwlSidePanel : Box {
   Label {
     label: "Bookmarks";
     xalign: 0;
-    margin-top: 6;
+    margin-top: 10;
     margin-bottom: 2;
     margin-start: 8;
     styles ["caption", "dim-label"]
@@ -37,7 +41,7 @@ template $OwlSidePanel : Box {
   Label {
     label: "Devices";
     xalign: 0;
-    margin-top: 6;
+    margin-top: 10;
     margin-bottom: 2;
     margin-start: 8;
     styles ["caption", "dim-label"]

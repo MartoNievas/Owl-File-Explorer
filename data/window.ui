@@ -16,7 +16,7 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
         <child>
           <object class="GtkPopoverMenuBar">
             <property name="menu-model">main_menu</property>
-            <property name="margin-top">2</property>
+            <property name="margin-top">4</property>
             <property name="margin-bottom">2</property>
             <property name="margin-start">4</property>
             <property name="margin-end">4</property>
@@ -32,12 +32,19 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
             <property name="vexpand">true</property>
             <property name="resize-start-child">false</property>
             <property name="resize-end-child">true</property>
+            <property name="shrink-start-child">false</property>
+            <property name="shrink-end-child">false</property>
             <property name="start-child">
               <object class="GtkScrolledWindow">
+                <property name="width-request">200</property>
                 <property name="vexpand">true</property>
                 <property name="hscrollbar-policy">2</property>
                 <property name="child">
-                  <object class="OwlSidePanel" id="side_panel"></object>
+                  <object class="OwlSidePanel" id="side_panel">
+                    <style>
+                      <class name="navigation-sidebar"/>
+                    </style>
+                  </object>
                 </property>
               </object>
             </property>
@@ -46,6 +53,9 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
                 <property name="orientation">1</property>
                 <property name="hexpand">true</property>
                 <property name="vexpand">true</property>
+                <child>
+                  <object class="OwlContentPanel" id="content_panel"></object>
+                </child>
               </object>
             </property>
           </object>

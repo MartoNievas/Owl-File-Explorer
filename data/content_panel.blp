@@ -1,0 +1,98 @@
+using Gtk 4.0;
+
+/* Main container for the file display area */
+template $OwlContentPanel : Box {
+  orientation: vertical;
+  hexpand: true;
+  vexpand: true;
+
+  /* Stack allows switching between different view modes (List, Compact, Grid) */
+  Stack stack {
+    vexpand: true;
+    transition-type: crossfade;
+
+    /* Page 1: Detailed List View with clickable headers for sorting */
+    StackPage {
+      name: "list";
+      child: Box {
+        orientation: vertical;
+
+        /* Static header for the list view */
+        Box column_header {
+          orientation: horizontal;
+          spacing: 0;
+          styles ["dim-label", "caption"]
+
+          Button {
+            label: "Name";
+            halign: start;
+            hexpand: true;
+            styles ["flat"]
+            action-name: "win.sort('name')";
+          }
+          Button {
+            label: "Size";
+            halign: start;
+            width-request: 80;
+            styles ["flat"]
+            action-name: "win.sort('size')";
+          }
+          Button {
+            label: "Type";
+            halign: start;
+            width-request: 100;
+            styles ["flat"]
+            action-name: "win.sort('type')";
+          }
+          Button {
+            label: "Date";
+            halign: start;
+            width-request: 150;
+            styles ["flat"]
+            action-name: "win.sort('date')";
+          }
+        }
+
+        Separator separator { orientation: horizontal; }
+
+        /* Scrollable area for file entries */
+        ScrolledWindow {
+          vexpand: true;
+          ListBox file_list {
+            selection-mode: browse;
+            show-separators: true;
+          }
+        }
+      };
+    }
+
+    /* Page 2: Compact List View without column headers */
+    StackPage {
+      name: "compact";
+      child: ScrolledWindow {
+        vexpand: true;
+        ListBox compact_list {
+          selection-mode: browse;
+          show-separators: true;
+        }
+      };
+    }
+
+    /* Page 3: Icon Grid View */
+    StackPage {
+      name: "grid";
+      child: ScrolledWindow {
+        vexpand: true;
+        FlowBox flow_box {
+          selection-mode: browse;
+          max-children-per-line: 10;
+          min-children-per-line: 2;
+          column-spacing: 15;
+          row-spacing: 15;
+          margin-start: 12;
+          margin-top: 12;
+        }
+      };
+    }
+  }
+}

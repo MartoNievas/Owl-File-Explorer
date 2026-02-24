@@ -1,5 +1,6 @@
 fn main() {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+    compile_blueprint(&manifest_dir, "content_panel");
     compile_blueprint(&manifest_dir, "window");
     compile_blueprint(&manifest_dir, "navbar");
     compile_blueprint(&manifest_dir, "side_panel");
