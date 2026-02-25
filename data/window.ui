@@ -16,10 +16,13 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
         <child>
           <object class="GtkPopoverMenuBar">
             <property name="menu-model">main_menu</property>
-            <property name="margin-top">4</property>
-            <property name="margin-bottom">2</property>
-            <property name="margin-start">4</property>
-            <property name="margin-end">4</property>
+            <property name="margin-top">0</property>
+            <property name="margin-bottom">0</property>
+            <property name="margin-start">0</property>
+            <property name="margin-end">0</property>
+            <style>
+              <class name="menubar"/>
+            </style>
           </object>
         </child>
         <child>
@@ -68,34 +71,34 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
       <attribute name="label">Files</attribute>
       <item>
         <attribute name="label">New Window</attribute>
-        <attribute name="action">app.new-window</attribute>
+        <attribute name="action">win.new-window</attribute>
       </item>
       <item>
         <attribute name="label">Open Terminal Here</attribute>
-        <attribute name="action">app.open-terminal</attribute>
+        <attribute name="action">win.open-terminal</attribute>
       </item>
       <item>
         <attribute name="label">Close Window</attribute>
-        <attribute name="action">app.close-window</attribute>
+        <attribute name="action">win.close-window</attribute>
       </item>
     </submenu>
     <submenu>
       <attribute name="label">Edit</attribute>
       <item>
         <attribute name="label">Copy</attribute>
-        <attribute name="action">app.copy</attribute>
+        <attribute name="action">win.copy</attribute>
       </item>
       <item>
         <attribute name="label">Cut</attribute>
-        <attribute name="action">app.cut</attribute>
+        <attribute name="action">win.cut</attribute>
       </item>
       <item>
         <attribute name="label">Paste</attribute>
-        <attribute name="action">app.paste</attribute>
+        <attribute name="action">win.paste</attribute>
       </item>
       <item>
         <attribute name="label">Select All</attribute>
-        <attribute name="action">app.select-all</attribute>
+        <attribute name="action">win.select-all</attribute>
       </item>
     </submenu>
     <submenu>
@@ -103,56 +106,56 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
       <section>
         <item>
           <attribute name="label">Refresh</attribute>
-          <attribute name="action">app.refresh</attribute>
+          <attribute name="action">win.refresh</attribute>
         </item>
         <submenu>
           <attribute name="label">Sort By</attribute>
           <section>
             <item>
               <attribute name="label">Name</attribute>
-              <attribute name="action">app.sort::name</attribute>
+              <attribute name="action">win.sort::name</attribute>
             </item>
             <item>
               <attribute name="label">Size</attribute>
-              <attribute name="action">app.sort::size</attribute>
+              <attribute name="action">win.sort::size</attribute>
             </item>
             <item>
               <attribute name="label">Type</attribute>
-              <attribute name="action">app.sort::type</attribute>
+              <attribute name="action">win.sort::type</attribute>
             </item>
             <item>
               <attribute name="label">Date</attribute>
-              <attribute name="action">app.sort::date</attribute>
+              <attribute name="action">win.sort::date</attribute>
             </item>
           </section>
           <section>
             <item>
               <attribute name="label">Ascending</attribute>
-              <attribute name="action">app.order::ascending</attribute>
+              <attribute name="action">win.order::ascending</attribute>
             </item>
             <item>
               <attribute name="label">Descending</attribute>
-              <attribute name="action">app.order::descending</attribute>
+              <attribute name="action">win.order::descending</attribute>
             </item>
           </section>
         </submenu>
         <item>
           <attribute name="label">Show Hidden Files</attribute>
-          <attribute name="action">app.show-hidden</attribute>
+          <attribute name="action">win.show-hidden</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label">List View</attribute>
-          <attribute name="action">app.view::list</attribute>
+          <attribute name="action">win.view::list</attribute>
         </item>
         <item>
           <attribute name="label">Grid View</attribute>
-          <attribute name="action">app.view::grid</attribute>
+          <attribute name="action">win.view::grid</attribute>
         </item>
         <item>
           <attribute name="label">Compact View</attribute>
-          <attribute name="action">app.view::compact</attribute>
+          <attribute name="action">win.view::compact</attribute>
         </item>
       </section>
     </submenu>
@@ -161,35 +164,35 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
       <section>
         <item>
           <attribute name="label">Open Parent Directory</attribute>
-          <attribute name="action">app.go-parent</attribute>
+          <attribute name="action">win.go-parent</attribute>
         </item>
         <item>
           <attribute name="label">Back</attribute>
-          <attribute name="action">app.go-back</attribute>
+          <attribute name="action">win.go-back</attribute>
         </item>
         <item>
           <attribute name="label">Forward</attribute>
-          <attribute name="action">app.go-forward</attribute>
+          <attribute name="action">win.go-forward</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label">Personal Directory</attribute>
-          <attribute name="action">app.go-home</attribute>
+          <attribute name="action">win.home</attribute>
         </item>
         <item>
           <attribute name="label">Desktop</attribute>
-          <attribute name="action">app.go-desktop</attribute>
+          <attribute name="action">win.go-desktop</attribute>
         </item>
         <item>
           <attribute name="label">Templates</attribute>
-          <attribute name="action">app.go-templates</attribute>
+          <attribute name="action">win.go-templates</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label">File System</attribute>
-          <attribute name="action">app.go-root</attribute>
+          <attribute name="action">win.go-root</attribute>
         </item>
       </section>
     </submenu>
@@ -197,22 +200,22 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
       <attribute name="label">Bookmarks</attribute>
       <item>
         <attribute name="label">Add Bookmark</attribute>
-        <attribute name="action">app.add-bookmark</attribute>
+        <attribute name="action">win.add-bookmark</attribute>
       </item>
       <item>
         <attribute name="label">Edit Bookmarks</attribute>
-        <attribute name="action">app.edit-bookmarks</attribute>
+        <attribute name="action">win.edit-bookmarks</attribute>
       </item>
     </submenu>
     <submenu>
       <attribute name="label">Help</attribute>
       <item>
         <attribute name="label">Index</attribute>
-        <attribute name="action">app.help-index</attribute>
+        <attribute name="action">win.help-index</attribute>
       </item>
       <item>
         <attribute name="label">About</attribute>
-        <attribute name="action">app.help-about</attribute>
+        <attribute name="action">win.help-about</attribute>
       </item>
     </submenu>
   </menu>

@@ -21,12 +21,3 @@ pub enum SortOrder {
     Ascending,
     Descending,
 }
-
-impl SortOrder {
-    pub fn toggle(&mut self) {
-        *self = match self {
-            SortOrder::Ascending => SortOrder::Descending,
-            SortOrder::Descending => SortOrder::Ascending,
-        }
-    }
-}

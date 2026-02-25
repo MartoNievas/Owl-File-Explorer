@@ -28,28 +28,28 @@ template $OwlContentPanel : Box {
             halign: start;
             hexpand: true;
             styles ["flat"]
-            action-name: "win.sort('name')";
+            action-name: "win.sort-name";
           }
           Button {
             label: "Size";
             halign: start;
             width-request: 80;
             styles ["flat"]
-            action-name: "win.sort('size')";
+            action-name: "win.sort-size";
           }
           Button {
             label: "Type";
             halign: start;
             width-request: 100;
             styles ["flat"]
-            action-name: "win.sort('type')";
+            action-name: "win.sort-type";
           }
           Button {
             label: "Date";
             halign: start;
             width-request: 150;
             styles ["flat"]
-            action-name: "win.sort('date')";
+            action-name: "win.sort-date";
           }
         }
 
@@ -60,7 +60,6 @@ template $OwlContentPanel : Box {
           vexpand: true;
           ListBox file_list {
             selection-mode: browse;
-            show-separators: true;
           }
         }
       };
@@ -73,7 +72,6 @@ template $OwlContentPanel : Box {
         vexpand: true;
         ListBox compact_list {
           selection-mode: browse;
-          show-separators: true;
         }
       };
     }
@@ -82,17 +80,24 @@ template $OwlContentPanel : Box {
     StackPage {
       name: "grid";
       child: ScrolledWindow {
-        vexpand: true;
-        FlowBox flow_box {
-          selection-mode: browse;
-          max-children-per-line: 10;
-          min-children-per-line: 2;
-          column-spacing: 15;
-          row-spacing: 15;
-          margin-start: 12;
-          margin-top: 12;
-        }
-      };
+      vexpand: true;
+         hscrollbar-policy: never;
+         FlowBox flow_box {
+           selection-mode: browse;
+           max-children-per-line: 10;
+           min-children-per-line: 2;
+           column-spacing: 12;
+           row-spacing: 12;
+           margin-start: 12;
+           margin-end: 12;
+           margin-top: 12;
+           margin-bottom: 12;
+
+          homogeneous: false;    
+          valign: start;         
+          halign: start;        
+         } 
+       };
     }
   }
 }

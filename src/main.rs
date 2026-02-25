@@ -1,5 +1,5 @@
 mod app;
-mod entry;
+mod file_entry;
 mod types;
 mod widgets;
 mod win;

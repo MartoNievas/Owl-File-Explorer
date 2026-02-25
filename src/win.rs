@@ -7,8 +7,12 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk4 as gtk;
+use std::fs;
+use std::path::PathBuf;
 
 mod imp {
+    use std::cell::RefCell;
+
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
@@ -22,6 +26,10 @@ mod imp {
         pub side_panel: TemplateChild<OwlSidePanel>,
         #[template_child]
         pub content_container: TemplateChild<gtk::Box>,
+
+        pub current_path: RefCell<PathBuf>,
+        pub forward_stack: RefCell<Vec<PathBuf>>,
+        pub history: RefCell<Vec<PathBuf>>,
     }
 
     #[glib::object_subclass]
@@ -48,7 +56,15 @@ mod imp {
 
             let obj = self.obj();
 
+            obj.setup_signals();
             obj.setup_actions();
+            //Load the current dir
+            let current_dir = std::env::current_dir().unwrap_or_else(|_| {
+                std::path::PathBuf::from(std::env::var("HOME").unwrap_or_else(|_| "/".to_string()))
+            });
+            obj.navigate_to(current_dir.clone(), false);
+            self.navbar.set_path(&current_dir);
+            self.content_panel.load_directory(&current_dir);
         }
     }
 
@@ -83,15 +99,212 @@ impl OwlWindow {
     }
 
     pub fn setup_actions(&self) {
-        // Usamos la activación nativa de ActionEntry (sin macros)
-        let action_home = gio::ActionEntry::builder("home")
+        let go_back = gio::ActionEntry::builder("go-back")
             .activate(|win: &OwlWindow, _, _| {
-                println!("¡Home activado!");
-                // Como win es OwlWindow, puedes acceder a la navbar
-                win.navbar().grab_focus();
+                let imp = win.imp();
+                let prev = imp.history.borrow_mut().pop();
+                if let Some(path) = prev {
+                    let current = imp.current_path.borrow().clone();
+                    imp.forward_stack.borrow_mut().push(current);
+                    win.navigate_to(path, false);
+                }
             })
             .build();
 
-        self.add_action_entries([action_home]);
+        let go_forward = gio::ActionEntry::builder("go-forward")
+            .activate(|win: &OwlWindow, _, _| {
+                let imp = win.imp();
+                let next = imp.forward_stack.borrow_mut().pop();
+                if let Some(path) = next {
+                    let current = imp.current_path.borrow().clone();
+                    imp.history.borrow_mut().push(current);
+                    win.navigate_to(path, false);
+                }
+            })
+            .build();
+
+        let go_parent = gio::ActionEntry::builder("go-parent")
+            .activate(|win: &OwlWindow, _, _| {
+                let current = win.imp().current_path.borrow().clone();
+                if let Some(parent) = current.parent() {
+                    win.navigate_to(parent.to_path_buf(), true);
+                }
+            })
+            .build();
+
+        let home = gio::ActionEntry::builder("home")
+            .activate(|win: &OwlWindow, _, _| {
+                let path = PathBuf::from(std::env::var("HOME").unwrap_or_else(|_| "/".to_string()));
+                win.navigate_to(path, true);
+            })
+            .build();
+
+        let go_root = gio::ActionEntry::builder("go-root")
+            .activate(|win: &OwlWindow, _, _| {
+                win.navigate_to(PathBuf::from("/"), true);
+            })
+            .build();
+
+        let go_desktop = gio::ActionEntry::builder("go-desktop")
+            .activate(|win: &OwlWindow, _, _| {
+                let home = std::env::var("HOME").unwrap_or_else(|_| "/".to_string());
+                win.navigate_to(PathBuf::from(home).join("Escritorio"), true);
+            })
+            .build();
+
+        let go_templates = gio::ActionEntry::builder("go-templates")
+            .activate(|win: &OwlWindow, _, _| {
+                let home = std::env::var("HOME").unwrap_or_else(|_| "/".to_string());
+                win.navigate_to(PathBuf::from(home).join("Plantillas"), true);
+            })
+            .build();
+
+        let refresh = gio::ActionEntry::builder("refresh")
+            .activate(|win: &OwlWindow, _, _| {
+                let current = win.imp().current_path.borrow().clone();
+                win.navigate_to(current, false);
+            })
+            .build();
+
+        let navigate = gio::ActionEntry::builder("navigate")
+            .parameter_type(Some(glib::VariantTy::STRING))
+            .activate(|win: &OwlWindow, _, param| {
+                if let Some(path_str) = param.and_then(|p| p.get::<String>()) {
+                    let path = PathBuf::from(path_str);
+                    if path.exists() {
+                        win.navigate_to(path, true);
+                    }
+                }
+            })
+            .build();
+
+        let close = gio::ActionEntry::builder("close-window")
+            .activate(|win: &OwlWindow, _, _| win.close())
+            .build();
+
+        self.add_action_entries([
+            go_back,
+            go_forward,
+            go_parent,
+            home,
+            go_root,
+            go_desktop,
+            go_templates,
+            refresh,
+            navigate,
+            close,
+        ]);
+    }
+
+    fn setup_signals(&self) {
+        let imp = self.imp();
+
+        // 1. Navbar: Enter en el entry
+        imp.navbar.connect_search(glib::clone!(
+            #[weak(rename_to = win)]
+            self,
+            move |text| {
+                let path = PathBuf::from(text);
+                if path.is_dir() {
+                    win.navigate_to(path, true);
+                }
+            }
+        ));
+
+        // 2. Content panel: doble click lista
+        imp.content_panel
+            .imp()
+            .file_list
+            .connect_row_activated(glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |_, row| {
+                    let entries = win.imp().content_panel.imp().entries.borrow();
+                    if let Some(entry) = entries.get(row.index() as usize) {
+                        if entry.is_dir {
+                            let path = entry.path.clone();
+                            drop(entries);
+                            win.navigate_to(path, true);
+                        }
+                    }
+                }
+            ));
+
+        // 3. Content panel: doble click lista compacta
+        imp.content_panel
+            .imp()
+            .compact_list
+            .connect_row_activated(glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |_, row| {
+                    let entries = win.imp().content_panel.imp().entries.borrow();
+                    if let Some(entry) = entries.get(row.index() as usize) {
+                        if entry.is_dir {
+                            let path = entry.path.clone();
+                            drop(entries);
+                            win.navigate_to(path, true);
+                        }
+                    }
+                }
+            ));
+
+        // 4. Content panel: doble click grilla
+        imp.content_panel
+            .imp()
+            .flow_box
+            .connect_child_activated(glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |_, child| {
+                    let entries = win.imp().content_panel.imp().entries.borrow();
+                    if let Some(entry) = entries.get(child.index() as usize) {
+                        if entry.is_dir {
+                            let path = entry.path.clone();
+                            drop(entries);
+                            win.navigate_to(path, true);
+                        }
+                    }
+                }
+            ));
+    }
+
+    pub fn navigate_to(&self, path: PathBuf, push_history: bool) {
+        let imp = self.imp();
+        let current = imp.current_path.borrow().clone();
+
+        if current == path && !imp.history.borrow().is_empty() && push_history {
+            return;
+        }
+
+        if push_history {
+            if current != PathBuf::new() && current != path {
+                imp.history.borrow_mut().push(current);
+            }
+            imp.forward_stack.borrow_mut().clear();
+        }
+
+        *imp.current_path.borrow_mut() = path.clone();
+        imp.navbar.set_path(&path);
+        imp.content_panel.load_directory(&path);
+
+        self.update_nav_actions();
+    }
+
+    fn update_nav_actions(&self) {
+        let imp = self.imp();
+        let can_back = !imp.history.borrow().is_empty();
+        let can_forward = !imp.forward_stack.borrow().is_empty();
+
+        if let Some(a) = self.lookup_action("go-back") {
+            a.downcast::<gio::SimpleAction>()
+                .unwrap()
+                .set_enabled(can_back);
+        }
+        if let Some(a) = self.lookup_action("go-forward") {
+            a.downcast::<gio::SimpleAction>()
+                .unwrap()
+                .set_enabled(can_forward);
+        }
     }
 }

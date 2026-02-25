@@ -1,6 +1,6 @@
 use std::fs;
 use std::path::PathBuf;
-
+#[derive(Clone)]
 pub struct FileEntry {
     pub path: PathBuf,
     pub name: String,

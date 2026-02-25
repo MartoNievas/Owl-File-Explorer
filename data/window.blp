@@ -10,10 +10,11 @@ template $OwlWindow : ApplicationWindow {
     
     PopoverMenuBar {
       menu-model: main_menu;
-      margin-top: 4;
-      margin-bottom: 2;
-      margin-start: 4;
-      margin-end: 4;
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-start: 0;
+      margin-end: 0;
+      styles ["menubar"]
     }
 
     $OwlNavBar navbar {
@@ -53,71 +54,71 @@ template $OwlWindow : ApplicationWindow {
 menu main_menu {
   submenu {
     label: "Files";
-    item { label: "New Window";         action: "app.new-window"; }
-    item { label: "Open Terminal Here"; action: "app.open-terminal"; }
-    item { label: "Close Window";       action: "app.close-window"; }
+    item { label: "New Window";         action: "win.new-window"; }
+    item { label: "Open Terminal Here"; action: "win.open-terminal"; }
+    item { label: "Close Window";       action: "win.close-window"; }
   }
 
   submenu {
     label: "Edit";
-    item { label: "Copy";       action: "app.copy"; }
-    item { label: "Cut";        action: "app.cut"; }
-    item { label: "Paste";      action: "app.paste"; }
-    item { label: "Select All"; action: "app.select-all"; }
+    item { label: "Copy";       action: "win.copy"; }
+    item { label: "Cut";        action: "win.cut"; }
+    item { label: "Paste";      action: "win.paste"; }
+    item { label: "Select All"; action: "win.select-all"; }
   }
 
   submenu {
     label: "View";
     section {
-      item { label: "Refresh"; action: "app.refresh"; }
+      item { label: "Refresh"; action: "win.refresh"; }
       submenu {
         label: "Sort By";
         section {
-          item { label: "Name"; action: "app.sort::name"; }
-          item { label: "Size"; action: "app.sort::size"; }
-          item { label: "Type"; action: "app.sort::type"; }
-          item { label: "Date"; action: "app.sort::date"; }
+          item { label: "Name"; action: "win.sort::name"; }
+          item { label: "Size"; action: "win.sort::size"; }
+          item { label: "Type"; action: "win.sort::type"; }
+          item { label: "Date"; action: "win.sort::date"; }
         }
         section {
-          item { label: "Ascending";  action: "app.order::ascending"; }
-          item { label: "Descending"; action: "app.order::descending"; }
+          item { label: "Ascending";  action: "win.order::ascending"; }
+          item { label: "Descending"; action: "win.order::descending"; }
         }
       }
-      item { label: "Show Hidden Files"; action: "app.show-hidden"; }
+      item { label: "Show Hidden Files"; action: "win.show-hidden"; }
     }
     section {
-      item { label: "List View";    action: "app.view::list"; }
-      item { label: "Grid View";    action: "app.view::grid"; }
-      item { label: "Compact View"; action: "app.view::compact"; }
+      item { label: "List View";    action: "win.view::list"; }
+      item { label: "Grid View";    action: "win.view::grid"; }
+      item { label: "Compact View"; action: "win.view::compact"; }
     }
   }
 
   submenu {
     label: "Go";
     section {
-      item { label: "Open Parent Directory"; action: "app.go-parent"; }
-      item { label: "Back";                  action: "app.go-back"; }
-      item { label: "Forward";               action: "app.go-forward"; }
+      item { label: "Open Parent Directory"; action: "win.go-parent"; }
+      item { label: "Back";                  action: "win.go-back"; }
+      item { label: "Forward";               action: "win.go-forward"; }
     }
     section {
-      item { label: "Personal Directory"; action: "app.go-home"; }
-      item { label: "Desktop";            action: "app.go-desktop"; }
-      item { label: "Templates";          action: "app.go-templates"; }
+      item { label: "Personal Directory"; action: "win.home"; }
+      item { label: "Desktop";            action: "win.go-desktop"; }
+      item { label: "Templates";          action: "win.go-templates"; }
     }
     section {
-      item { label: "File System"; action: "app.go-root"; }
+      item { label: "File System"; action: "win.go-root"; }
     }
   }
 
   submenu {
     label: "Bookmarks";
-    item { label: "Add Bookmark";   action: "app.add-bookmark"; }
-    item { label: "Edit Bookmarks"; action: "app.edit-bookmarks"; }
+    item { label: "Add Bookmark";   action: "win.add-bookmark"; }
+    item { label: "Edit Bookmarks"; action: "win.edit-bookmarks"; }
   }
 
   submenu {
     label: "Help";
-    item { label: "Index"; action: "app.help-index"; }
-    item { label: "About"; action: "app.help-about"; }
+    item { label: "Index"; action: "win.help-index"; }
+    item { label: "About"; action: "win.help-about"; }
   }
 }

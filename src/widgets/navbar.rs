@@ -2,6 +2,7 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk4 as gtk;
+use std::path::PathBuf;
 
 mod imp {
     use super::*;
@@ -10,7 +11,7 @@ mod imp {
     #[template(file = "../../data/navbar.ui")]
     pub struct OwlNavBar {
         #[template_child]
-        pub search: TemplateChild<gtk::SearchEntry>,
+        pub search: TemplateChild<gtk::Entry>,
     }
 
     #[glib::object_subclass]
@@ -49,5 +50,9 @@ impl OwlNavBar {
         self.imp().search.connect_activate(move |entry| {
             f(entry.text().as_str());
         });
+    }
+
+    pub fn set_path(&self, path: &PathBuf) {
+        self.imp().search.set_text(&path.to_string_lossy());
     }
 }

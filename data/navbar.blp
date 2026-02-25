@@ -9,22 +9,19 @@ template $OwlNavBar : Box {
   margin-start: 6;
   margin-end: 6;
 
-  // Quitamos los nombres (ids) de los botones porque ahora usamos acciones
   Button {
     icon-name: "go-previous-symbolic";
-    sensitive: false; // Esto lo manejarás luego con el estado de la acción
-    action-name: "win.back";
+    action-name: "win.go-back";
   }
 
   Button {
     icon-name: "go-next-symbolic";
-    sensitive: false;
-    action-name: "win.forward";
+    action-name: "win.go-forward";
   }
 
   Button {
     icon-name: "go-up-symbolic";
-    action-name: "win.up";
+    action-name: "win.go-parent";
   }
 
   Button {
@@ -37,10 +34,9 @@ template $OwlNavBar : Box {
     action-name: "win.refresh";
   }
 
-  // Mantenemos el ID 'search' porque seguro lo necesitás en el struct de Rust
-  SearchEntry search {
+
+  Entry search {
     hexpand: true;
-    placeholder-text: "Buscar o ir a...";
     valign: center;
   }
 
