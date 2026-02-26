@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, PartialEq, Default)]
 pub enum SortBy {
     #[default]
     Name,
@@ -7,7 +7,7 @@ pub enum SortBy {
     Date,
 }
 
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, PartialEq, Default)]
 pub enum ViewMode {
     #[default]
     List,
@@ -15,7 +15,7 @@ pub enum ViewMode {
     Compact,
 }
 
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, PartialEq, Default)]
 pub enum SortOrder {
     #[default]
     Ascending,

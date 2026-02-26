@@ -28,28 +28,32 @@ template $OwlContentPanel : Box {
             halign: start;
             hexpand: true;
             styles ["flat"]
-            action-name: "win.sort-name";
+            action-name: "win.sort";
+            action-target: "'name1'";
           }
           Button {
             label: "Size";
             halign: start;
             width-request: 80;
             styles ["flat"]
-            action-name: "win.sort-size";
+            action-name: "win.sort";
+            action-target: "'size1'";
           }
           Button {
             label: "Type";
             halign: start;
             width-request: 100;
             styles ["flat"]
-            action-name: "win.sort-type";
+            action-name: "win.sort";
+            action-target: "'type1'";
           }
           Button {
             label: "Date";
             halign: start;
             width-request: 150;
             styles ["flat"]
-            action-name: "win.sort-date";
+            action-name: "win.sort";
+            action-target: "'date1'";
           }
         }
 

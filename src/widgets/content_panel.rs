@@ -75,6 +75,64 @@ impl OwlContentPanel {
         self.sort_entries(&mut entries);
         *imp.entries.borrow_mut() = entries;
         self.refresh_view();
+        self.update_sort_headers();
+    }
+
+    fn update_sort_headers(&self) {
+        let imp = self.imp();
+        let sort_by = imp.sort_by.borrow().clone();
+        let sort_order = imp.sort_order.borrow().clone();
+
+        let arrow = match sort_order {
+            SortOrder::Ascending => " ↑",
+            SortOrder::Descending => " ↓",
+        };
+
+        let labels = ["Name", "Size", "Type", "Date"];
+        let active = match sort_by {
+            SortBy::Name => 0,
+            SortBy::Size => 1,
+            SortBy::Type => 2,
+            SortBy::Date => 3,
+        };
+
+        let header = imp.column_header.get();
+        let mut child_opt = header.first_child();
+        let mut i = 0usize;
+
+        while let Some(widget) = child_opt {
+            let next = widget.next_sibling();
+            if let Ok(btn) = widget.downcast::<gtk::Button>() {
+                if i < labels.len() {
+                    if i == active {
+                        btn.set_label(&format!("{}{}", labels[i], arrow));
+                        btn.add_css_class("accent");
+                    } else {
+                        btn.set_label(labels[i]);
+                        btn.remove_css_class("accent");
+                    }
+                    i += 1;
+                }
+            }
+            child_opt = next;
+        }
+    }
+
+    pub fn set_view_mode(&self, mode: ViewMode) {
+        *self.imp().view_mode.borrow_mut() = mode;
+        self.refresh_view();
+    }
+
+    pub fn set_sort_menu(&self, sort_by: SortBy) {
+        let imp = self.imp();
+
+        *imp.sort_by.borrow_mut() = sort_by;
+        *imp.sort_order.borrow_mut() = SortOrder::Ascending;
+
+        let mut entries = imp.entries.borrow().clone();
+        self.sort_entries(&mut entries);
+        *imp.entries.borrow_mut() = entries;
+        self.refresh_view();
     }
 
     //Change sort field and refresh view
@@ -82,7 +140,6 @@ impl OwlContentPanel {
         let imp = self.imp();
         let current = imp.sort_by.borrow().clone();
         if current == sort_by {
-            // mismo criterio -> invertir orden
             let current_order = imp.sort_order.borrow().clone();
             *imp.sort_order.borrow_mut() = match current_order {
                 SortOrder::Ascending => SortOrder::Descending,
@@ -96,6 +153,7 @@ impl OwlContentPanel {
         self.sort_entries(&mut entries);
         *imp.entries.borrow_mut() = entries;
         self.refresh_view();
+        self.update_sort_headers();
     }
 
     // Private methods
@@ -123,9 +181,28 @@ impl OwlContentPanel {
         });
     }
 
+    pub fn set_visible_files(&self) {
+        let flag = self.imp().show_hidden_files.borrow().clone();
+        *self.imp().show_hidden_files.borrow_mut() = !flag;
+
+        self.refresh_view();
+    }
+
+    pub fn set_order(&self, sort_order: SortOrder) {
+        let imp = self.imp();
+
+        *imp.sort_order.borrow_mut() = sort_order;
+
+        let mut entries = imp.entries.borrow().clone();
+        self.sort_entries(&mut entries);
+        *imp.entries.borrow_mut() = entries;
+        self.refresh_view();
+        self.update_sort_headers();
+    }
+
     fn refresh_view(&self) {
         let imp = self.imp();
-        let mode = *imp.view_mode.borrow();
+        let mode = imp.view_mode.borrow().clone();
 
         match mode {
             ViewMode::List => {

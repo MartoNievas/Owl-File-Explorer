@@ -1,10 +1,8 @@
 using Gtk 4.0;
-
 template $OwlWindow : ApplicationWindow {
   title: "Owl";
   default-width: 800;
   default-height: 600;
-
   child: Box {
     orientation: vertical;
     
@@ -16,35 +14,27 @@ template $OwlWindow : ApplicationWindow {
       margin-end: 0;
       styles ["menubar"]
     }
-
-    $OwlNavBar navbar {
-      }
-
+    $OwlNavBar navbar {}
     Paned {
       orientation: horizontal;
       position: 200;
       vexpand: true;
       resize-start-child: false;
       resize-end-child: true;
-      
-      shrink-start-child: false; // Evita que el panel izquierdo desaparezca
-      shrink-end-child: false;   // Evita que el área de contenido desaparezca
-
+      shrink-start-child: false;
+      shrink-end-child: false;
       start-child: ScrolledWindow {
         width-request: 200;
         vexpand: true;
         hscrollbar-policy: never;
-
         child: $OwlSidePanel side_panel {
-                 styles ["navigation-sidebar"]
-          };
+          styles ["navigation-sidebar"]
+        };
       };
-
       end-child: Box content_container {
         orientation: vertical;
         hexpand: true;
         vexpand: true;
-
         $OwlContentPanel content_panel {}
       };
     }
@@ -58,7 +48,6 @@ menu main_menu {
     item { label: "Open Terminal Here"; action: "win.open-terminal"; }
     item { label: "Close Window";       action: "win.close-window"; }
   }
-
   submenu {
     label: "Edit";
     item { label: "Copy";       action: "win.copy"; }
@@ -66,7 +55,6 @@ menu main_menu {
     item { label: "Paste";      action: "win.paste"; }
     item { label: "Select All"; action: "win.select-all"; }
   }
-
   submenu {
     label: "View";
     section {
@@ -74,25 +62,24 @@ menu main_menu {
       submenu {
         label: "Sort By";
         section {
-          item { label: "Name"; action: "win.sort::name"; }
-          item { label: "Size"; action: "win.sort::size"; }
-          item { label: "Type"; action: "win.sort::type"; }
-          item { label: "Date"; action: "win.sort::date"; }
+          item { label: "Name"; action: "win.sort"; target: "'name'"; }
+          item { label: "Size"; action: "win.sort"; target: "'size'"; }
+          item { label: "Type"; action: "win.sort"; target: "'type'"; }
+          item { label: "Date"; action: "win.sort"; target: "'date'"; }
         }
         section {
-          item { label: "Ascending";  action: "win.order::ascending"; }
-          item { label: "Descending"; action: "win.order::descending"; }
+          item { label: "Ascending";  action: "win.order"; target: "'ascending'";  }
+          item { label: "Descending"; action: "win.order"; target: "'descending'"; }
         }
       }
       item { label: "Show Hidden Files"; action: "win.show-hidden"; }
     }
     section {
-      item { label: "List View";    action: "win.view::list"; }
-      item { label: "Grid View";    action: "win.view::grid"; }
-      item { label: "Compact View"; action: "win.view::compact"; }
+      item { label: "List View";    action: "win.view"; target: "'list'";    }
+      item { label: "Grid View";    action: "win.view"; target: "'grid'";    }
+      item { label: "Compact View"; action: "win.view"; target: "'compact'"; }
     }
   }
-
   submenu {
     label: "Go";
     section {
@@ -109,13 +96,11 @@ menu main_menu {
       item { label: "File System"; action: "win.go-root"; }
     }
   }
-
   submenu {
     label: "Bookmarks";
     item { label: "Add Bookmark";   action: "win.add-bookmark"; }
     item { label: "Edit Bookmarks"; action: "win.edit-bookmarks"; }
   }
-
   submenu {
     label: "Help";
     item { label: "Index"; action: "win.help-index"; }

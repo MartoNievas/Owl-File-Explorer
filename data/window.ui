@@ -113,29 +113,35 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
           <section>
             <item>
               <attribute name="label">Name</attribute>
-              <attribute name="action">win.sort::name</attribute>
+              <attribute name="action">win.sort</attribute>
+              <attribute name="target">'name'</attribute>
             </item>
             <item>
               <attribute name="label">Size</attribute>
-              <attribute name="action">win.sort::size</attribute>
+              <attribute name="action">win.sort</attribute>
+              <attribute name="target">'size'</attribute>
             </item>
             <item>
               <attribute name="label">Type</attribute>
-              <attribute name="action">win.sort::type</attribute>
+              <attribute name="action">win.sort</attribute>
+              <attribute name="target">'type'</attribute>
             </item>
             <item>
               <attribute name="label">Date</attribute>
-              <attribute name="action">win.sort::date</attribute>
+              <attribute name="action">win.sort</attribute>
+              <attribute name="target">'date'</attribute>
             </item>
           </section>
           <section>
             <item>
               <attribute name="label">Ascending</attribute>
-              <attribute name="action">win.order::ascending</attribute>
+              <attribute name="action">win.order</attribute>
+              <attribute name="target">'ascending'</attribute>
             </item>
             <item>
               <attribute name="label">Descending</attribute>
-              <attribute name="action">win.order::descending</attribute>
+              <attribute name="action">win.order</attribute>
+              <attribute name="target">'descending'</attribute>
             </item>
           </section>
         </submenu>
@@ -147,15 +153,18 @@ corresponding .blp file and regenerate this file with blueprint-compiler.
       <section>
         <item>
           <attribute name="label">List View</attribute>
-          <attribute name="action">win.view::list</attribute>
+          <attribute name="action">win.view</attribute>
+          <attribute name="target">'list'</attribute>
         </item>
         <item>
           <attribute name="label">Grid View</attribute>
-          <attribute name="action">win.view::grid</attribute>
+          <attribute name="action">win.view</attribute>
+          <attribute name="target">'grid'</attribute>
         </item>
         <item>
           <attribute name="label">Compact View</attribute>
-          <attribute name="action">win.view::compact</attribute>
+          <attribute name="action">win.view</attribute>
+          <attribute name="target">'compact'</attribute>
         </item>
       </section>
     </submenu>

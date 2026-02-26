@@ -1,5 +1,4 @@
 use crate::win::OwlWindow;
-use glib::prelude::*;
 use gtk::gio;
 use gtk::glib;
 use gtk::prelude::*;
